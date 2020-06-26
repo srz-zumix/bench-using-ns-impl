@@ -40,31 +40,6 @@ index 3337be31..86af95f0 100644
  namespace internal2 {
  
  // Delegates to PrintBytesInObjectToImpl() to print the bytes in the
-diff --git a/googletest/src/gtest-test-part.cc b/googletest/src/gtest-test-part.cc
-index 178317a6..03b95dc7 100644
---- a/googletest/src/gtest-test-part.cc
-+++ b/googletest/src/gtest-test-part.cc
-@@ -33,9 +33,10 @@
- #include "gtest/gtest-test-part.h"
- #include "src/gtest-internal-inl.h"
- 
--namespace testing {
-+// namespace testing {
-+  using namespace testing;
- 
--using internal::GetUnitTestImpl;
-+using testing::internal::GetUnitTestImpl;
- 
- // Gets the summary of the failure message by omitting the stack trace
- // in it.
-@@ -78,6 +79,7 @@ int TestPartResultArray::size() const {
-   return static_cast<int>(array_.size());
- }
- 
-+namespace testing {
- namespace internal {
- 
- HasNewFatalFailureHelper::HasNewFatalFailureHelper()
 diff --git a/googletest/src/gtest.cc b/googletest/src/gtest.cc
 index a5b4e5ac..dcc34bfb 100644
 --- a/googletest/src/gtest.cc
