@@ -1,0 +1,302 @@
+diff --git a/googletest/src/gtest-matchers.cc b/googletest/src/gtest-matchers.cc
+index 7d2fb685..54b1ba2a 100644
+--- a/googletest/src/gtest-matchers.cc
++++ b/googletest/src/gtest-matchers.cc
+@@ -38,7 +38,8 @@
+ 
+ #include <string>
+ 
+-namespace testing {
++// namespace testing {
++using namespace testing;
+ 
+ // Constructs a matcher that matches a const std::string& whose value is
+ // equal to s.
+@@ -94,4 +95,4 @@ Matcher<absl::string_view>::Matcher(absl::string_view s) {
+ }
+ #endif  // GTEST_HAS_ABSL
+ 
+-}  // namespace testing
++// }  // namespace testing
+diff --git a/googletest/src/gtest-printers.cc b/googletest/src/gtest-printers.cc
+index 3337be31..86af95f0 100644
+--- a/googletest/src/gtest-printers.cc
++++ b/googletest/src/gtest-printers.cc
+@@ -50,7 +50,8 @@
+ #include "gtest/internal/gtest-port.h"
+ #include "src/gtest-internal-inl.h"
+ 
+-namespace testing {
++// namespace testing {
++  using namespace testing;
+ 
+ namespace {
+ 
+@@ -104,6 +105,7 @@ void PrintBytesInObjectToImpl(const unsigned char* obj_bytes, size_t count,
+ 
+ }  // namespace
+ 
++namespace testing {
+ namespace internal2 {
+ 
+ // Delegates to PrintBytesInObjectToImpl() to print the bytes in the
+diff --git a/googletest/src/gtest-test-part.cc b/googletest/src/gtest-test-part.cc
+index 178317a6..03b95dc7 100644
+--- a/googletest/src/gtest-test-part.cc
++++ b/googletest/src/gtest-test-part.cc
+@@ -33,9 +33,10 @@
+ #include "gtest/gtest-test-part.h"
+ #include "src/gtest-internal-inl.h"
+ 
+-namespace testing {
++// namespace testing {
++  using namespace testing;
+ 
+-using internal::GetUnitTestImpl;
++using testing::internal::GetUnitTestImpl;
+ 
+ // Gets the summary of the failure message by omitting the stack trace
+ // in it.
+@@ -78,6 +79,7 @@ int TestPartResultArray::size() const {
+   return static_cast<int>(array_.size());
+ }
+ 
++namespace testing {
+ namespace internal {
+ 
+ HasNewFatalFailureHelper::HasNewFatalFailureHelper()
+diff --git a/googletest/src/gtest.cc b/googletest/src/gtest.cc
+index a5b4e5ac..dcc34bfb 100644
+--- a/googletest/src/gtest.cc
++++ b/googletest/src/gtest.cc
+@@ -138,12 +138,13 @@
+ #include "absl/strings/str_cat.h"
+ #endif  // GTEST_HAS_ABSL
+ 
+-namespace testing {
++using namespace testing;
++// namespace testing {
+ 
+-using internal::CountIf;
+-using internal::ForEach;
+-using internal::GetElementOr;
+-using internal::Shuffle;
++using testing::internal::CountIf;
++using testing::internal::ForEach;
++using testing::internal::GetElementOr;
++using testing::internal::Shuffle;
+ 
+ // Constants.
+ 
+@@ -171,6 +172,7 @@ static const char kTestTotalShards[] = "GTEST_TOTAL_SHARDS";
+ // The environment variable name for the test shard status file.
+ static const char kTestShardStatusFile[] = "GTEST_SHARD_STATUS_FILE";
+ 
++namespace testing {
+ namespace internal {
+ 
+ // The text used in failure messages to indicate the start of the
+@@ -197,6 +199,7 @@ static FILE* OpenFileForWriting(const std::string& output_file) {
+ }
+ 
+ }  // namespace internal
++}  // namespace testing
+ 
+ // Bazel passes in the argument to '--test_filter' via the TESTBRIDGE_TEST_ONLY
+ // environment variable.
+@@ -325,6 +328,7 @@ GTEST_DEFINE_string_(
+     "This flag specifies the flagfile to read command-line flags from.");
+ #endif  // GTEST_USE_OWN_FLAGFILE_FLAG_
+ 
++namespace testing {
+ namespace internal {
+ 
+ // Generates a random number from [0, range), using a Linear
+@@ -577,6 +581,7 @@ int UnitTestOptions::GTestShouldProcessSEH(DWORD exception_code) {
+ #endif  // GTEST_HAS_SEH
+ 
+ }  // namespace internal
++}  // namespace testing
+ 
+ // The c'tor sets this object as the test part result reporter used by
+ // Google Test.  The 'result' parameter specifies where to report the
+@@ -627,6 +632,7 @@ void ScopedFakeTestPartResultReporter::ReportTestPartResult(
+   result_->Append(result);
+ }
+ 
++namespace testing {
+ namespace internal {
+ 
+ // Returns the type ID of ::testing::Test.  We should always call this
+@@ -955,6 +961,7 @@ void SplitString(const ::std::string& str, char delimiter,
+ }
+ 
+ }  // namespace internal
++}  // namespace testing
+ 
+ // Constructs an empty Message.
+ // We allocate the stringstream separately because otherwise each use of
+@@ -1013,6 +1020,8 @@ AssertionResult AssertionResult::operator!() const {
+   return negation;
+ }
+ 
++namespace testing {
++
+ // Makes a successful assertion result.
+ AssertionResult AssertionSuccess() {
+   return AssertionResult(true);
+@@ -1422,6 +1431,7 @@ AssertionResult FloatingPointLE(const char* expr1,
+ }
+ 
+ }  // namespace internal
++} // namespace testing
+ 
+ // Asserts that val1 is less than, or almost equal to, val2.  Fails
+ // otherwise.  In particular, it fails if either val1 or val2 is NaN.
+@@ -1437,6 +1447,7 @@ AssertionResult DoubleLE(const char* expr1, const char* expr2,
+   return internal::FloatingPointLE<double>(expr1, expr2, val1, val2);
+ }
+ 
++namespace testing {
+ namespace internal {
+ 
+ // The helper function for {ASSERT|EXPECT}_EQ with int or enum
+@@ -1552,6 +1563,7 @@ AssertionResult CmpHelperSTRCASENE(const char* s1_expression,
+ }
+ 
+ }  // namespace internal
++} // namespace testing
+ 
+ namespace {
+ 
+@@ -1658,6 +1670,7 @@ AssertionResult IsNotSubstring(
+ }
+ #endif  // GTEST_HAS_STD_WSTRING
+ 
++namespace testing {
+ namespace internal {
+ 
+ #if GTEST_OS_WINDOWS
+@@ -2021,6 +2034,7 @@ std::string AppendUserMessage(const std::string& gtest_msg,
+ }
+ 
+ }  // namespace internal
++} // namespace testing
+ 
+ // class TestResult
+ 
+@@ -2276,6 +2290,7 @@ void Test::RecordProperty(const std::string& key, int value) {
+   RecordProperty(key, value_message.GetString().c_str());
+ }
+ 
++namespace testing {
+ namespace internal {
+ 
+ void ReportFailureInUnknownLocation(TestPartResult::Type result_type,
+@@ -2291,6 +2306,7 @@ void ReportFailureInUnknownLocation(TestPartResult::Type result_type,
+ }
+ 
+ }  // namespace internal
++} // namespace testing
+ 
+ // Google Test requires all tests in the same test suite to use the same test
+ // fixture class.  This function checks if the current test has the
+@@ -2375,6 +2391,7 @@ static std::string* FormatSehExceptionMessage(DWORD exception_code,
+ 
+ #endif  // GTEST_HAS_SEH
+ 
++namespace testing {
+ namespace internal {
+ 
+ #if GTEST_HAS_EXCEPTIONS
+@@ -2493,6 +2510,7 @@ Result HandleExceptionsInMethodIfSupported(
+ }
+ 
+ }  // namespace internal
++} // namespace testing
+ 
+ // Runs the test and updates the test result.
+ void Test::Run() {
+@@ -2558,6 +2576,7 @@ TestInfo::TestInfo(const std::string& a_test_suite_name,
+ // Destructs a TestInfo object.
+ TestInfo::~TestInfo() { delete factory_; }
+ 
++namespace testing {
+ namespace internal {
+ 
+ // Creates a new TestInfo object and registers it with Google Test;
+@@ -2608,6 +2627,7 @@ void ReportInvalidTestSuiteType(const char* test_suite_name,
+                     << " " << errors.GetString();
+ }
+ }  // namespace internal
++} // namespace testing
+ 
+ namespace {
+ 
+@@ -2638,6 +2658,7 @@ class TestNameIs {
+ 
+ }  // namespace
+ 
++namespace testing {
+ namespace internal {
+ 
+ // This method expands all parameterized tests registered with macros TEST_P
+@@ -2651,6 +2672,7 @@ void UnitTestImpl::RegisterParameterizedTests() {
+ }
+ 
+ }  // namespace internal
++}   // namespace testing
+ 
+ // Creates the test object, runs it, records its result, and then
+ // deletes it.
+@@ -2894,6 +2916,7 @@ static const char * TestPartResultTypeToString(TestPartResult::Type type) {
+   }
+ }
+ 
++namespace testing {
+ namespace internal {
+ 
+ // Prints a TestPartResult to an std::string.
+@@ -4525,6 +4548,7 @@ class ScopedPrematureExitFile {
+ };
+ 
+ }  // namespace internal
++} // namespace testing
+ 
+ // class TestEventListeners
+ 
+@@ -4994,6 +5018,7 @@ void UnitTest::PopGTestTrace()
+   impl_->gtest_trace_stack().pop_back();
+ }
+ 
++namespace testing {
+ namespace internal {
+ 
+ UnitTestImpl::UnitTestImpl(UnitTest* parent)
+@@ -5998,9 +6023,9 @@ void ParseGoogleTestFlagsOnlyImpl(int* argc, CharType** argv) {
+     const std::string arg_string = StreamableToString(argv[i]);
+     const char* const arg = arg_string.c_str();
+ 
+-    using internal::ParseBoolFlag;
+-    using internal::ParseInt32Flag;
+-    using internal::ParseStringFlag;
++    using testing::internal::ParseBoolFlag;
++    using testing::internal::ParseInt32Flag;
++    using testing::internal::ParseStringFlag;
+ 
+     bool remove_flag = false;
+     if (ParseGoogleTestFlag(arg)) {
+@@ -6089,6 +6114,7 @@ void InitGoogleTestImpl(int* argc, CharType** argv) {
+ }
+ 
+ }  // namespace internal
++} // namespace testing
+ 
+ // Initializes Google Test.  This must be called before calling
+ // RUN_ALL_TESTS().  In particular, it parses a command line for the
+@@ -6174,4 +6200,4 @@ ScopedTrace::~ScopedTrace()
+   UnitTest::GetInstance()->PopGTestTrace();
+ }
+ 
+-}  // namespace testing
++// }  // namespace testing
