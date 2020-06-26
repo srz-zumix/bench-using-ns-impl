@@ -3,6 +3,7 @@ TARGET_A=googletestA/googletest/build
 TARGET_B=googletestB/googletest/build
 COUNT:=10
 HEAVY:=10
+BUILD:=make
 
 test: comp
 
@@ -15,6 +16,7 @@ googletestA:
 googletestB: googletestA
 	cp -r googletestA googletestB
 	patch -p 1 -d googletestB < using.patch
+	if [ -d ${TARGET_B} ]; then rm -rf ${TARGET_B}; fi
 
 ${TARGET_A}: googletestA
 	make cmake TARGET=${TARGET_A}
@@ -66,6 +68,6 @@ build_benchmark:
 	@echo ${TARGET}
 	@num=1; while [[ $$num -le ${COUNT} ]]; do \
 		make $(BENCHMARK_MAKE_OPTION) clean; \
-		{ time -p make $(BENCHMARK_MAKE_OPTION) -j 1 2>&1 1>/dev/null; } 2>> benchmark_build_time${NAME}.log; \
+		{ time -p ${BUILD} $(BENCHMARK_MAKE_OPTION) -j 1 2>&1 1>/dev/null; } 2>> benchmark_build_time${NAME}.log; \
 		((num = num + 1)); \
 	done
