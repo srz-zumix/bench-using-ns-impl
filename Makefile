@@ -38,6 +38,7 @@ ba:
 
 comp: ab ba
 
+heavy: SHELL=/bin/bash
 heavy:
 	make clear
 	@num=1; while [[ $$num -le ${HEAVY} ]]; do \
