@@ -12,3 +12,6 @@ jobs:
       - name: test
         shell: bash
         run: make heavy HEAVY=5
+      - name: result
+        shell: bash
+        run: make report
