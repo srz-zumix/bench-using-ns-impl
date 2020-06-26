@@ -2,7 +2,7 @@ TARGET:=googletestA/googletest/build
 TARGET_A=googletestA/googletest/build
 TARGET_B=googletestB/googletest/build
 COUNT:=10
-HEVY:=10
+HEAVY:=10
 
 test: comp
 
@@ -38,9 +38,9 @@ ba:
 
 comp: ab ba
 
-hevy:
+heavy:
 	make clear
-	@num=1; while [[ $$num -le ${HEVY} ]]; do \
+	@num=1; while [[ $$num -le ${HEAVY} ]]; do \
 		make comp;	\
 		((num = num + 1)); \
 	done
