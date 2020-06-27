@@ -77,8 +77,8 @@ TIME_TARGET:=user
 benchmark_report:
 	@awk 'BEGIN{ sum=0; max=0; min=-1; num=0; } \
 		{ if($$1=="${TIME_TARGET}") { num+=1; if(min==-1){ min=$$2; } sum+=$$2; if($$2>max){max=$$2}; if(min>$$2){min=$$2}; } }\
-		END{ print("Total:", sum, "(",num,")" ); num-=2; sum-=min; sum-=max; print("Min:", min); print("Max:", max); \
-		avg=sum/num; print("Avg:", avg); }' benchmark_build_time${NAME}.log | tee result${NAME}.txt
+		END{ print("Total:", sum, "(",num,")" ); avg1=sum/num; num-=2; sum-=min; sum-=max; print("Min:", min); print("Max:", max); \
+		avg2=sum/num; print("Avg:", avg1); print("Avg(-min/max):", avg2); }' benchmark_build_time${NAME}.log | tee result${NAME}.txt
 
 BENCHMARK_MAKE_OPTION=-C ${TARGET} -j 1
 
