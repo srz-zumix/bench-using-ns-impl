@@ -10,6 +10,12 @@ jobs:
         os: [ubuntu-latest, macos-latest]
     steps:
       - uses: actions/checkout@master
+      - name: prepare
+        shell: bash
+        run: make setup
+      - name: build
+        shell: bash
+        run: make build
       - name: test
         shell: bash
         run: make heavy HEAVY=5

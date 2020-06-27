@@ -45,6 +45,10 @@ ba:
 
 comp: ab ba
 
+build:
+	cmake --build ${TARGET_A}
+	cmake --build ${TARGET_B}
+
 heavy: SHELL=/bin/bash
 heavy: setup
 	${MAKE} clear
