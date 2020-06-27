@@ -46,7 +46,7 @@ ba:
 comp: ab ba
 
 heavy: SHELL=/bin/bash
-heavy:
+heavy: setup
 	${MAKE} clear
 	@num=1; while [[ $$num -le ${HEAVY} ]]; do \
 		${MAKE} comp;	\
@@ -73,7 +73,7 @@ report:
 	@echo googletestB
 	@${MAKE} benchmark_report NAME=B
 
-TIME_TARGET:=real
+TIME_TARGET:=user
 benchmark_report:
 	@awk 'BEGIN{ sum=0; max=0; min=-1; num=0; } \
 		{ if($$1=="${TIME_TARGET}") { num+=1; if(min==-1){ min=$$2; } sum+=$$2; if($$2>max){max=$$2}; if(min>$$2){min=$$2}; } }\
