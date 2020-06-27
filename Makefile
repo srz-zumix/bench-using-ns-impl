@@ -102,7 +102,7 @@ cmake_build_benchmark:
 	@echo ${TARGET}
 	@num=1; while [[ $$num -le ${COUNT} ]]; do \
 		cmake --build ${TARGET} --target clean $(BENCHMARK_CMAKE_OPTION) 2>&1 1>/dev/null; \
-		{ time -p cmake --build ${TARGET} $(BENCHMARK_CMAKE_OPTION) 2>&1 1>/dev/null; } 2>> benchmark_build_time${NAME}.log; \
+		{ chrt -f 99 /usr/bin/time -p cmake --build ${TARGET} $(BENCHMARK_CMAKE_OPTION) 2>&1 1>/dev/null; } 2>> benchmark_build_time${NAME}.log; \
 		((num = num + 1)); \
 	done
 
