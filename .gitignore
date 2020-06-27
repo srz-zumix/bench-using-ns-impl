@@ -33,5 +33,6 @@
 
 *.log
 *.txt
+*.etl
 
 googletest*
