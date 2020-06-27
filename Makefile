@@ -31,7 +31,7 @@ endif
 
 cmake:
 	mkdir ${TARGET}
-	(cd ${TARGET} && cmake .. ${CMAKE_OPTION})
+	(cd ${TARGET} && cmake .. -DCMAKE_RULE_MESSAGES:BOOL=OFF -DCMAKE_TARGET_MESSAGES:BOOL=OFF ${CMAKE_OPTION})
 
 a: ${TARGET_A}
 	${MAKE} TARGET=${TARGET_A} COUNT=${COUNT} NAME=A bench
@@ -101,3 +101,13 @@ cmake_build_benchmark:
 		{ time -p cmake --build ${TARGET} $(BENCHMARK_CMAKE_OPTION) 2>&1 1>/dev/null; } 2>> benchmark_build_time${NAME}.log; \
 		((num = num + 1)); \
 	done
+
+
+perf_bench:
+	@${MAKE} perf_benchmark TARGET=${TARGET_A}
+	@${MAKE} perf_benchmark TARGET=${TARGET_B}
+
+perf_benchmark: SHELL=/bin/bash
+perf_benchmark: setup
+	make ${BENCHMARK_MAKE_OPTION}
+	perf stat -r ${COUNT} make ${BENCHMARK_MAKE_OPTION} clean all
