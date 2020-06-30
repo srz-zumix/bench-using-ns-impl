@@ -52,6 +52,16 @@ void Hoge::f()
 
 ## Benchmark Result
 
+### Compiler C++ Builds
+
+https://build-bench.com/b/2ve_dz7_3PptFpJhbqxQAFJE3nw
+
+![CPU](images/CPU.png)
+![MEM](images/MEM.png)
+![FIO](images/FIO.png)
+
+### GoogleTest patch test
+
 ![ubuntu](images/ubuntu.png)
 
 ![mac](images/mac.png)
