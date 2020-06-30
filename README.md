@@ -52,7 +52,7 @@ void Hoge::f()
 
 ## Benchmark Result
 
-### Compiler C++ Builds
+### C++ Build Benchmarks
 
 https://build-bench.com/b/2ve_dz7_3PptFpJhbqxQAFJE3nw
 
